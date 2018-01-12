@@ -1,0 +1,39 @@
+0 20
+0 10
+4 6
+4 8
+5 10
+5 5
+6 100
+7 10
+8 2
+9 2
+10 2
+
+        if(tempo%2 == 0 && !filaPronto.isEmpty()){
+        	/* O processo da vez entra na CPU */
+           cpu = filaPronto.getFirst();
+           filaPronto.remove(cpu);
+            if(cpu.primeiraVez()){
+        	   contagem++;
+               cpu.setEntradaCPU(tempo);
+            }
+            cpu.setEmCPU();
+         }else{
+            cpu.setEmCPU();
+            /* Nem todos os processos estao executando */
+            /* executando corretamente.                */
+            /* Temos 11 processos, mas apenas alguns   */
+            /* estao entrando nesse if().              */
+            if(cpu.nTerminou()){
+                filaTemp.add(cpu);
+                cpu = vazio;
+            }else if(cpu.chegaFim()){
+               cpu.setSaidaCPU(tempo);
+               cpu.setarValor();
+               filaEncerrado.add(cpu);
+               System.out.println("ID encerrado: " + cpu.getID());
+               filaPronto.addAll(filaTemp);
+               filaTemp.clear();
+            }
+         }
